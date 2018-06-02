@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <style>
+            body {
+                width: 100%;
+                height: 100%;
+                background-color: coral;
+                overflow: hidden;
+            } 
+            .container {
+                color: green;
+            }
+            @media print {
+                .container {
+                    color: mediumslateblue;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>
+                CefSharp lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the
+                Chromium Embedded Framework (CEF) by Marshall A. Greenblatt. About 30% of the bindings are
+                written in C++/CLI with the majority of code here is C#. It can be used from C# or VB, or any
+                other CLR language. CefSharp provides both WPF and WinForms web browser control implementations.
+            </h1>
+            <h2 id="sizeText">The size is</h2>
+            <script type="text/javascript">
+                function onResize() {
+                    var element = document.getElementById('sizeText');
+                    element.innerHTML = `${window.innerWidth} x ${window.innerHeight}`;
+                }
+                window.addEventListener('resize', onResize);
+                onResize();
+            </script>
+        </div>
+    </body>
+</html>
