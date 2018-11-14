@@ -30,6 +30,8 @@ namespace CefSharpApp
         public void InitializeChromium()
         {
             CefSettings settings = new CefSettings();
+            // For Windows 7 and above, best to include relevant app.manifest entries as well
+            Cef.EnableHighDPISupport();
             // Initialize cef with the provided settings
             Cef.Initialize(settings);
             // Create a browser component
