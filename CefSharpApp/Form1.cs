@@ -40,6 +40,18 @@ namespace CefSharpApp
             this.Controls.Add(chromeBrowser);
             chromeBrowser.Dock = DockStyle.Fill;
             chromeBrowser.KeyboardHandler = new KeyboardHandler();
+
+            chromeBrowser.IsBrowserInitializedChanged += ChromeBrowser_IsBrowserInitializedChanged;
+        }
+
+        private void ChromeBrowser_IsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)
+        {
+            var chromeBrowser = sender as ChromiumWebBrowser;
+            if (!chromeBrowser.IsBrowserInitialized)
+            {
+                throw new InvalidOperationException();
+            }
+            chromeBrowser.ShowDevTools();
         }
     }
 }
