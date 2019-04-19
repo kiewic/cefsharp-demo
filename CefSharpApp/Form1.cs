@@ -36,12 +36,13 @@ namespace CefSharpApp
             Cef.Initialize(settings);
             // Create a browser component
             chromeBrowser = new ChromiumWebBrowser("file:///./media-print.html");
+            chromeBrowser.Dock = DockStyle.Fill;
+            chromeBrowser.KeyboardHandler = new DummyKeyboardHandler();
+            chromeBrowser.RequestHandler = new DummyRequestHandler();
+            chromeBrowser.IsBrowserInitializedChanged += ChromeBrowser_IsBrowserInitializedChanged;
+
             // Add it to the form and fill it to the form window.
             this.Controls.Add(chromeBrowser);
-            chromeBrowser.Dock = DockStyle.Fill;
-            chromeBrowser.KeyboardHandler = new KeyboardHandler();
-
-            chromeBrowser.IsBrowserInitializedChanged += ChromeBrowser_IsBrowserInitializedChanged;
         }
 
         private void ChromeBrowser_IsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)

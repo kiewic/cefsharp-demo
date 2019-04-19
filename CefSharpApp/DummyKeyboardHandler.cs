@@ -31,7 +31,7 @@ namespace CefSharpApp
         }
     }
 
-    class KeyboardHandler : IKeyboardHandler
+    class DummyKeyboardHandler : IKeyboardHandler
     {
         public bool OnKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
         {
