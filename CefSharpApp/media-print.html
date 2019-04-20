@@ -19,6 +19,7 @@
     </head>
     <body>
         <div class="container">
+            <h2 id="memoryText"></h2>
             <h1>
                 CefSharp lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the
                 Chromium Embedded Framework (CEF) by Marshall A. Greenblatt. About 30% of the bindings are
@@ -33,6 +34,34 @@
                 }
                 window.addEventListener('resize', onResize);
                 onResize();
+
+                // Under HKEY_CURRENT_USER\Software\Microsoft\Windows\Windows Error Reporting, set Disabled to REG_DWORD equal 1
+                // WER files are at C:\ProgramData\Microsoft\Windows\WER\ReportArchive
+
+                setInterval(() => {
+                    document.getElementById("memoryText").innerHTML = JSON.stringify({
+                        x: x.length,
+                        totalJSHeapSize: window.performance.memory.totalJSHeapSize / 1000000.0,
+                        usedJSHeapSize: window.performance.memory.usedJSHeapSize / 1000000.0,
+                        jsHeapSizeLimit: window.performance.memory.jsHeapSizeLimit / 1000000.0,
+                    });
+                }, 1000);
+
+                var y = [];
+                var x = [{}];
+                setTimeout(() => {
+                    setInterval(() => {
+                        x.push(JSON.stringify({
+                            totalJSHeapSize: window.performance.memory.totalJSHeapSize / 1000000,
+                            usedJSHeapSize: window.performance.memory.usedJSHeapSize / 1000000,
+                            jsHeapSizeLimit: window.performance.memory.jsHeapSizeLimit / 1000000,
+                            x: x[x.length - 1],
+                        }));
+
+                        //// Very weird
+                        //y.push(new ArrayBuffer(1024 * 1024));
+                    }, 10);
+                }, 3000);
             </script>
         </div>
     </body>
