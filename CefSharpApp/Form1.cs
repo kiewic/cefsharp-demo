@@ -52,7 +52,9 @@ namespace CefSharpApp
             {
                 throw new InvalidOperationException();
             }
-            chromeBrowser.ShowDevTools();
+
+            // DevTools can be called from here too
+            // chromeBrowser.ShowDevTools();
         }
     }
 }

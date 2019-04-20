@@ -40,6 +40,11 @@ namespace CefSharpApp
 
         public bool OnPreKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut)
         {
+            if (type != KeyType.KeyUp)
+            {
+                return false;
+            }
+
             Keys key = (Keys)windowsKeyCode | modifiers.GetKey();
 
             switch (key)
@@ -62,6 +67,7 @@ namespace CefSharpApp
                 pdfPrintSettings.Landscape = true;
                 pdfPrintSettings.BackgroundsEnabled = true;
                 browser.PrintToPdfAsync(fullPath, pdfPrintSettings).ContinueWith(OnPrintToPdfCompleted, fullPath);
+                return true;
             }
 
             return false;
