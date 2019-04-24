@@ -79,14 +79,23 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CefSharp">
-      <HintPath>..\..\CefSharp\CefSharp\bin\x86\Debug\CefSharp.dll</HintPath>
+    <Reference Include="CefSharp" Condition="('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')">
+      <HintPath>..\..\CefSharp\CefSharp\bin\x86\$(Configuration)\CefSharp.dll</HintPath>
     </Reference>
-    <Reference Include="CefSharp.Core">
-      <HintPath>..\..\CefSharp\CefSharp.Core\bin\Win32\Debug\CefSharp.Core.dll</HintPath>
+    <Reference Include="CefSharp.Core" Condition="('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')">
+      <HintPath>..\..\CefSharp\CefSharp.Core\bin\Win32\$(Configuration)\CefSharp.Core.dll</HintPath>
     </Reference>
-    <Reference Include="CefSharp.WinForms">
-      <HintPath>..\..\CefSharp\CefSharp.WinForms\bin\x86\Debug\CefSharp.WinForms.dll</HintPath>
+    <Reference Include="CefSharp.WinForms" Condition="('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')">
+      <HintPath>..\..\CefSharp\CefSharp.WinForms\bin\x86\$(Configuration)\CefSharp.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp" Condition="'$(Platform)' == 'x64'">
+      <HintPath>..\..\CefSharp\CefSharp\bin\x64\$(Configuration)\CefSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.Core" Condition="'$(Platform)' == 'x64'">
+      <HintPath>..\..\CefSharp\CefSharp.Core\bin\x64\$(Configuration)\CefSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.WinForms" Condition="'$(Platform)' == 'x64'">
+      <HintPath>..\..\CefSharp\CefSharp.WinForms\bin\x64\$(Configuration)\CefSharp.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -127,7 +136,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="crash_reporter.cfg" />
-    <None Include="Foo.targets" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -154,53 +162,6 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\cef.redist.x64.3.3497.1841\build\cef.redist.x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.3497.1841\build\cef.redist.x64.props'))" />
     <Error Condition="!Exists('..\packages\cef.redist.x86.3.3497.1841\build\cef.redist.x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.3497.1841\build\cef.redist.x86.props'))" />
-
-    <PropertyGroup>
-      <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' "></CefSharpTargetDir>
-    </PropertyGroup>
-
-    <ItemGroup Condition="('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')">
-      <None Include="@(CefRedist32)">
-        <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="@(CefSharpCommonBinaries32)">
-        <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <!--
-    <ItemGroup Condition="'$(Platform)' == 'x64'">
-      <None Include="@(CefRedist64)">
-        <Link>$(MINT)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="@(CefSharpCommonBinaries64)">
-        <Link>$(MINT)\%(RecursiveDir)%(FileName)%(Extension)</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-    -->
-
-    <ItemGroup Condition="'$(Platform)' == 'AnyCPU'">
-      <None Include="@(CefRedist32)">
-        <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="@(CefRedist64)">
-        <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="@(CefSharpCommonBinaries32)">
-        <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="@(CefSharpCommonBinaries64)">
-        <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
   </Target>
 
   <Target Name="AfterBuild">
@@ -212,4 +173,29 @@
     <Message Text="First occurrence" />
     <Copy SourceFiles="@(SubProcessFiles)" DestinationFolder="$(TargetDir)" />
   </Target>
+
+  <PropertyGroup>
+    <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' "></CefSharpTargetDir>
+  </PropertyGroup>
+
+  <ItemGroup Condition="('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')">
+    <None Include="@(CefRedist32)">
+      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="@(CefSharpCommonBinaries32)">
+      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
+    <None Include="@(CefRedist64)">
+      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="@(CefSharpCommonBinaries64)">
+      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
