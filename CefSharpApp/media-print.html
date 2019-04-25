@@ -19,7 +19,7 @@
     </head>
     <body>
         <div class="container">
-            <h2 id="memoryText"></h2>
+            <div><button id="memoryButton">Run out of memory</button> <span id="memoryText"></span></div>
             <h1>
                 CefSharp lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the
                 Chromium Embedded Framework (CEF) by Marshall A. Greenblatt. About 30% of the bindings are
@@ -38,37 +38,23 @@
                 // Under HKEY_CURRENT_USER\Software\Microsoft\Windows\Windows Error Reporting, set Disabled to REG_DWORD equal 1
                 // WER files are at C:\ProgramData\Microsoft\Windows\WER\ReportArchive
 
-                //setInterval(() => {
-                //    document.getElementById("memoryText").innerHTML = JSON.stringify({
-                //        x: x.length,
-                //        totalJSHeapSize: window.performance.memory.totalJSHeapSize / 1000000.0,
-                //        usedJSHeapSize: window.performance.memory.usedJSHeapSize / 1000000.0,
-                //        jsHeapSizeLimit: window.performance.memory.jsHeapSizeLimit / 1000000.0,
-                //    });
-                //}, 1000);
-
-                var size = 1024 * 1024;
-                var x = [{}];
-                var z = [];
-                setTimeout(() => {
-                    setInterval(() => {
-                        var y = JSON.stringify({
-                            totalJSHeapSize: window.performance.memory.totalJSHeapSize / 1000000,
-                            usedJSHeapSize: window.performance.memory.usedJSHeapSize / 1000000,
-                            jsHeapSizeLimit: window.performance.memory.jsHeapSizeLimit / 1000000,
-                            x: x[x.length - 1],
-                        });
-
-                        try {
-                            x.push(new ArrayBuffer(size));
-                            document.getElementById("memoryText").innerHTML = x.length;
-                        }
-                        catch (e) {
-                            size = size / 2;
-                            z.push(JSON.stringify({ mint: new Date() }));
-                        }
-                    }, 5);
-                }, 3000);
+                document.getElementById('memoryButton').addEventListener('click', function () {
+                    var totalMemory = 0;
+                    var size = 1024 * 1024;
+                    var x = [{}];
+                    setTimeout(() => {
+                        setInterval(() => {
+                            document.getElementById("memoryText").innerHTML = `${totalMemory} (${x.length})`;
+                            try {
+                                x.push(new ArrayBuffer(size));
+                                totalMemory += size;
+                            }
+                            catch (e) {
+                                size = size / 2;
+                            }
+                        }, 5);
+                    }, 1000);
+                });
             </script>
         </div>
     </body>
