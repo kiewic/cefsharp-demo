@@ -19,6 +19,7 @@
     </head>
     <body>
         <div class="container">
+            <div><button id="memoryButton">Run out of memory</button> <span id="memoryText"></span></div>
             <h1>
                 CefSharp lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the
                 Chromium Embedded Framework (CEF) by Marshall A. Greenblatt. About 30% of the bindings are
@@ -33,6 +34,27 @@
                 }
                 window.addEventListener('resize', onResize);
                 onResize();
+
+                // Under HKEY_CURRENT_USER\Software\Microsoft\Windows\Windows Error Reporting, set Disabled to REG_DWORD equal 1
+                // WER files are at C:\ProgramData\Microsoft\Windows\WER\ReportArchive
+
+                document.getElementById('memoryButton').addEventListener('click', function () {
+                    var totalMemory = 0;
+                    var size = 1024 * 1024;
+                    var x = [{}];
+                    setTimeout(() => {
+                        setInterval(() => {
+                            document.getElementById("memoryText").innerHTML = `${totalMemory} (${x.length})`;
+                            try {
+                                x.push(new ArrayBuffer(size));
+                                totalMemory += size;
+                            }
+                            catch (e) {
+                                size = size / 2;
+                            }
+                        }, 5);
+                    }, 1000);
+                });
             </script>
         </div>
     </body>
