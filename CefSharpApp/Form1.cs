@@ -43,6 +43,10 @@ namespace CefSharpApp
 
             // Add it to the form and fill it to the form window.
             this.Controls.Add(chromeBrowser);
+
+            chromeBrowser.JavascriptObjectRepository.Register("coolGuidGenerator", new GuidGenerator());
+            chromeBrowser.JavascriptObjectRepository.Register("coolGuidGenerator2", new GuidGenerator(), isAsync: true);
+            chromeBrowser.JavascriptObjectRepository.Register("boundAsync", new BoundObject(), true);
         }
 
         private void ChromeBrowser_IsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)

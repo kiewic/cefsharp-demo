@@ -20,6 +20,7 @@
     <body>
         <div class="container">
             <div><button id="memoryButton">Run out of memory</button> <span id="memoryText"></span></div>
+            <div><button id="invalidCharButton">String with invalid Unicode sequence</button> <span id="memoryText"></span></div>
             <h1>
                 CefSharp lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the
                 Chromium Embedded Framework (CEF) by Marshall A. Greenblatt. About 30% of the bindings are
@@ -55,6 +56,41 @@
                         }, 5);
                     }, 1000);
                 });
+
+                // Call C# from JS
+                CefSharp.BindObjectAsync("coolGuidGenerator").then(function () {
+                    document.getElementById('invalidCharButton').addEventListener('click', function () {
+                        console.log(window.coolGuidGenerator.newGuid());
+                        console.log(window.coolGuidGenerator.validateGuid("fooo"));
+
+                        //// Uncaught (in promise) Error: System.Text.EncoderFallbackException: Unable to translate Unicode character \uDC11 at index 0 to specified code page.
+                        //console.log(window.coolGuidGenerator.validateGuid("\udc11"));
+
+                        // Uncaught (in promise) Error: System.Text.EncoderFallbackException: Unable to translate Unicode character \uD83D at index 0 to specified code page.
+                        console.log(window.coolGuidGenerator.validateGuid("'\uD83D'"));
+                    });
+                });
+
+                CefSharp.BindObjectAsync("coolGuidGenerator2").then(function () {
+                    window.coolGuidGenerator2.validateGuid2("foo", "hello", 1987).then(function () {
+                        console.log(arguments);
+                    });
+                });
+
+                (async function () {
+                    await CefSharp.BindObjectAsync("boundAsync");
+
+                    boundAsync.div(16, 2).then(function (actualResult) {
+                        const expectedResult = 9;
+                        console.assert(expectedResult === actualResult, "Divide 16 / 2 resulted in " + expectedResult);
+                        console.log(actualResult);
+                    });
+
+                    boundAsync.error().catch(function (e) {
+                        var msg = "Error: " + e + "(" + Date() + ")";
+                        console.log(msg);
+                    });
+                })();
             </script>
         </div>
     </body>
