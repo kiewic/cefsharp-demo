@@ -35,7 +35,7 @@ namespace CefSharpApp
             // Initialize cef with the provided settings
             Cef.Initialize(settings);
             // Create a browser component
-            chromeBrowser = new ChromiumWebBrowser("file:///./media-print.html");
+            chromeBrowser = new ChromiumWebBrowser("file:///./index.html");
             chromeBrowser.Dock = DockStyle.Fill;
             chromeBrowser.KeyboardHandler = new DummyKeyboardHandler();
             chromeBrowser.RequestHandler = new DummyRequestHandler();
