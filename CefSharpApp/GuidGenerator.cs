@@ -14,16 +14,14 @@ namespace CefSharpApp
             return Guid.NewGuid().ToString();
         }
 
+        /// <summary>
+        /// This is a sync method that takes 7 seconds.
+        /// </summary>
         public bool ValidateGuid(string text)
         {
+            //await Task.Delay(7000).ConfigureAwait(true);
+            System.Threading.Thread.Sleep(7000);
             Guid result;
-            return Guid.TryParse(text, out result);
-        }
-
-        public bool ValidateGuid2(string foo, string text, long bar)
-        {
-            Guid result;
-            Debug.WriteLine("{0} {1} {2}", foo, text, bar);
             return Guid.TryParse(text, out result);
         }
     }
