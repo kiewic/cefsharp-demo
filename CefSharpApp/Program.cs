@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CefSharp;
 
 namespace CefSharpApp
 {
@@ -14,6 +15,8 @@ namespace CefSharpApp
         [STAThread]
         static void Main()
         {
+            //Cef.EnableHighDPISupport();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
