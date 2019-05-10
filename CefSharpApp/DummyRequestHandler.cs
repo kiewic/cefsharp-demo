@@ -36,6 +36,11 @@ namespace CefSharpApp
             return false;
         }
 
+        public bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect)
+        {
+            return false;
+        }
+
         public CefReturnValue OnBeforeResourceLoad(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
         {
             return CefReturnValue.Continue;
