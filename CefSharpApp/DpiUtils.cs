@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace CefSharpApp
 {
@@ -43,6 +44,13 @@ namespace CefSharpApp
         //     PROCESS_PER_MONITOR_DPI_AWARE
         public static void Check()
         {
+            var aTimer = new System.Timers.Timer(5000);
+            aTimer.Elapsed += new ElapsedEventHandler(CheckOnInterval);
+            aTimer.Enabled = true;
+        }
+
+        public static void CheckOnInterval(object source, ElapsedEventArgs e)
+        {
             Process[] processlist = Process.GetProcesses();
             foreach (Process process in processlist)
             {
@@ -54,6 +62,10 @@ namespace CefSharpApp
                     GetProcessDpiAwareness(process.Handle, out processAwareness);
 
                     uint windowDpi = GetDpiForWindow(process.MainWindowHandle);
+
+                    if (process.ProcessName != "PBIDesktop") {
+                        continue;
+                    }
 
                     Console.WriteLine("Process: {0} ID: {1} Window title: {2} {3} {4}",
                         process.ProcessName,
