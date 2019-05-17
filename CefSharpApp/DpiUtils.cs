@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -59,7 +60,15 @@ namespace CefSharpApp
                 {
                     // Per process
                     PROCESS_DPI_AWARENESS processAwareness;
-                    GetProcessDpiAwareness(process.Handle, out processAwareness);
+                    try
+                    {
+                        GetProcessDpiAwareness(process.Handle, out processAwareness);
+                    }
+                    catch (Win32Exception ex) when (ex.ErrorCode == -2147467259)
+                    {
+                        // Access denied error (E_FAIL)
+                        continue;
+                    }
 
                     uint windowDpi = GetDpiForWindow(process.MainWindowHandle);
 
