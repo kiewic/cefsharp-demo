@@ -19,8 +19,10 @@
     </head>
     <body>
         <div class="container">
-            <div><button id="memoryButton">Run out of memory</button> <span id="memoryText"></span></div>
-            <div><button id="syncButton">Sync methods</button> <button id="asyncButton">Async methods</button></div>
+            <div><a href="#" id="memoryButton">Run out of memory</a> <span id="memoryText"></span></div>
+            <div><a href="#" id="syncButton">Sync methods</a></div>
+            <div><a href="#" id="asyncButton">Async methods</a></div>
+            <div><a href="#" id="imageButton">Load image</a> <img id="testImage" /></div>
             <h1>
                 CefSharp lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the
                 Chromium Embedded Framework (CEF) by Marshall A. Greenblatt. About 30% of the bindings are
@@ -81,7 +83,7 @@
 
                         window.coolGuidGenerator2.validateGuid("hello").then(function (result) {
                             console.log(result);
-                        }).catch (function (e) {
+                        }).catch(function (e) {
                             console.log(e);
                         });
                     });
@@ -102,6 +104,10 @@
                         console.log(msg);
                     });
                 })();
+
+                document.getElementById("imageButton").addEventListener("click", function () {
+                    document.getElementById("testImage").src = "https://httpbin.org/image/png";
+                });
             </script>
         </div>
     </body>
