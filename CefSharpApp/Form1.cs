@@ -49,7 +49,7 @@ namespace CefSharpApp
             chromeBrowser.JavascriptObjectRepository.Register("boundAsync", new BoundObject(), true);
         }
 
-        private void ChromeBrowser_IsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)
+        private void ChromeBrowser_IsBrowserInitializedChanged(object sender, EventArgs e)
         {
             var chromeBrowser = sender as ChromiumWebBrowser;
             if (!chromeBrowser.IsBrowserInitialized)
@@ -60,5 +60,18 @@ namespace CefSharpApp
             // DevTools can be called from here too
             // chromeBrowser.ShowDevTools();
         }
+
+        // Before CefSharp 75
+        //private void ChromeBrowser_IsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)
+        //{
+        //    var chromeBrowser = sender as ChromiumWebBrowser;
+        //    if (!chromeBrowser.IsBrowserInitialized)
+        //    {
+        //        throw new InvalidOperationException();
+        //    }
+
+        //    // DevTools can be called from here too
+        //    // chromeBrowser.ShowDevTools();
+        //}
     }
 }
