@@ -13,12 +13,12 @@ namespace CefSharpApp
     {
         public bool CanGetCookies(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
         {
-            return false;
+            return true;
         }
 
         public bool CanSetCookie(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, Cookie cookie)
         {
-            return false;
+            return true;
         }
 
         public bool GetAuthCredentials(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
@@ -99,10 +99,10 @@ namespace CefSharpApp
             throw new NotImplementedException();
         }
 
-        public IResourceRequestHandler GetResourceRequestHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
-        {
-            //throw new NotImplementedException();
-            return null;
-        }
+        //public IResourceRequestHandler GetResourceRequestHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
+        //{
+        //    //throw new NotImplementedException();
+        //    return null;
+        //}
     }
 }

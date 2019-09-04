@@ -30,10 +30,21 @@ namespace CefSharpApp
         public void InitializeChromium()
         {
             CefSettings settings = new CefSettings();
+
+            // CEF message loop integrated into the application message loo (Part 1)
+            settings.MultiThreadedMessageLoop = false;
+
             // For Windows 7 and above, best to include relevant app.manifest entries as well
             Cef.EnableHighDPISupport();
             // Initialize cef with the provided settings
             Cef.Initialize(settings);
+
+            // CEF message loop integrated into the application message loo (Part 2)
+            var timer = new Timer();
+            timer.Interval = 16;
+            timer.Tick += Timer_Tick;
+            timer.Start();
+
             // Create a browser component
             chromeBrowser = new ChromiumWebBrowser("file:///./index.html");
             chromeBrowser.Dock = DockStyle.Fill;
@@ -47,6 +58,11 @@ namespace CefSharpApp
             chromeBrowser.JavascriptObjectRepository.Register("coolGuidGenerator", new GuidGenerator());
             chromeBrowser.JavascriptObjectRepository.Register("coolGuidGenerator2", new GuidGenerator(), isAsync: true);
             chromeBrowser.JavascriptObjectRepository.Register("boundAsync", new BoundObject(), true);
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            Cef.DoMessageLoopWork();
         }
 
         private void ChromeBrowser_IsBrowserInitializedChanged(object sender, EventArgs e)
