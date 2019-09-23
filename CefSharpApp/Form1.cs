@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +16,16 @@ namespace CefSharpApp
 {
     public partial class Form1 : Form
     {
+        private enum PROCESS_DPI_AWARENESS
+        {
+            Process_DPI_Unaware = 0,
+            Process_System_DPI_Aware = 1,
+            Process_Per_Monitor_DPI_Aware = 2
+        }
+
+        [DllImport("SHCore.dll", SetLastError = true)]
+        private static extern bool SetProcessDpiAwareness(PROCESS_DPI_AWARENESS awareness);
+
         public ChromiumWebBrowser chromeBrowser;
 
         public Form1()
@@ -29,13 +41,19 @@ namespace CefSharpApp
 
         public void InitializeChromium()
         {
+            Debug.Assert(SetProcessDpiAwareness(PROCESS_DPI_AWARENESS.Process_System_DPI_Aware) == false);
+
             CefSettings settings = new CefSettings();
 
             // CEF message loop integrated into the application message loo (Part 1)
             settings.MultiThreadedMessageLoop = false;
 
+            // Specifying a CachePath is required for persistence of cookies, saving of passwords, etc.
+            settings.CachePath = "cache";
+
             // For Windows 7 and above, best to include relevant app.manifest entries as well
-            Cef.EnableHighDPISupport();
+            //Cef.EnableHighDPISupport();
+
             // Initialize cef with the provided settings
             Cef.Initialize(settings);
 
