@@ -54,6 +54,9 @@ namespace CefSharpApp
             // For Windows 7 and above, best to include relevant app.manifest entries as well
             //Cef.EnableHighDPISupport();
 
+            settings.CefCommandLineArgs.Add("disable-gpu", "1");
+            settings.CefCommandLineArgs.Add("disable-gpu-compositing", "1");
+
             // Initialize cef with the provided settings
             Cef.Initialize(settings);
 
