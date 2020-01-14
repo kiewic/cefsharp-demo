@@ -45,9 +45,6 @@ namespace CefSharpApp
 
             CefSettings settings = new CefSettings();
 
-            // CEF message loop integrated into the application message loo (Part 1)
-            settings.MultiThreadedMessageLoop = false;
-
             // Specifying a CachePath is required for persistence of cookies, saving of passwords, etc.
             settings.CachePath = "cache";
 
@@ -60,11 +57,16 @@ namespace CefSharpApp
             // Initialize cef with the provided settings
             Cef.Initialize(settings);
 
-            // CEF message loop integrated into the application message loo (Part 2)
-            var timer = new Timer();
-            timer.Interval = 16;
-            timer.Tick += Timer_Tick;
-            timer.Start();
+            #region MultiThreadedMessageLoop
+            // CEF message loop integrated into the application message loo (Part 1)
+            //settings.MultiThreadedMessageLoop = false;
+
+            //// CEF message loop integrated into the application message loo (Part 2)
+            //var timer = new Timer();
+            //timer.Interval = 16;
+            //timer.Tick += Timer_Tick;
+            //timer.Start();
+            #endregion
 
             // Create a browser component
             chromeBrowser = new ChromiumWebBrowser("file:///./index.html");
