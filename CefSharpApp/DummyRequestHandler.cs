@@ -93,16 +93,17 @@ namespace CefSharpApp
             return true;
         }
 
-        // CefSharp 75 only methods
+        // CefSharp 75 only method
         public bool GetAuthCredentials(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
         {
             throw new NotImplementedException();
         }
 
-        //public IResourceRequestHandler GetResourceRequestHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
-        //{
-        //    //throw new NotImplementedException();
-        //    return null;
-        //}
+        // CefSharp 75 only method
+        public IResourceRequestHandler GetResourceRequestHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
+        {
+            //throw new NotImplementedException();
+            return null;
+        }
     }
 }
