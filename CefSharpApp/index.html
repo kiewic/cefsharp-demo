@@ -6,10 +6,12 @@
                 height: 100%;
                 background-color: coral;
                 overflow: hidden;
-            } 
+            }
+
             .container {
                 color: green;
             }
+
             @media print {
                 .container {
                     color: mediumslateblue;
@@ -26,21 +28,15 @@
             <div><a href="https://heyhttp.org:8080">Request client certificate</a></div>
             <div><a href="https://powerbi-df.analysis-df.windows.net/groups/me/reports/49aaa02f-c63a-481e-87f2-4ce397954f0b/ReportSection7ef15d33b6b919be02c6?unmin=1">Power BI report</a></div>
             <div><a href="https://get.webgl.org/webgl2/">WebGL2 test</a></div>
-            <h1>
+            <h2>Window size is <span id="sizeText">0</span></h2>
+            <h2>Print size is <span id="sizeText2">0</span></h2>
+            <h2>
                 CefSharp lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the
                 Chromium Embedded Framework (CEF) by Marshall A. Greenblatt. About 30% of the bindings are
                 written in C++/CLI with the majority of code here is C#. It can be used from C# or VB, or any
                 other CLR language. CefSharp provides both WPF and WinForms web browser control implementations.
-            </h1>
-            <h2 id="sizeText">The size is</h2>
+            </h2>
             <script type="text/javascript">
-                function onResize() {
-                    var element = document.getElementById('sizeText');
-                    element.innerHTML = `${window.innerWidth} x ${window.innerHeight}`;
-                }
-                window.addEventListener('resize', onResize);
-                onResize();
-
                 // Under HKEY_CURRENT_USER\Software\Microsoft\Windows\Windows Error Reporting, set Disabled to REG_DWORD equal 1
                 // WER files are at C:\ProgramData\Microsoft\Windows\WER\ReportArchive
 
@@ -111,7 +107,39 @@
                 document.getElementById("imageButton").addEventListener("click", function () {
                     document.getElementById("testImage").src = "https://httpbin.org/image/png";
                 });
+
+                //
+                // Print stuff
+                //
+                function onResize() {
+                    var element = document.getElementById('sizeText');
+                    element.innerHTML = `${window.innerWidth} x ${window.innerHeight}`;
+                }
+                window.addEventListener('resize', onResize);
+                onResize();
+
+                let printMediaQueryList = window.matchMedia('print');
+                printMediaQueryList.addListener((mql) => {
+                    var element = document.getElementById('sizeText2');
+                    var body = document.getElementsByTagName('body')[0];
+                    if (mql.matches) {
+                        // On a Surface Book, this value becomes "988 x 746"
+                        element.innerHTML = `${body.offsetWidth} x ${body.offsetHeight}`;
+                    } else {
+                        element.innerHTML = '0';
+                    }
+                    console.log('print', mql.matches);
+                });
+
+                window.addEventListener('beforeprint', (mql) => {
+                    console.log('beforeprint', mql);
+                });
+
+                window.addEventListener('afterprint', (mql) => {
+                    console.log('afterprint', mql);
+                });
             </script>
         </div>
     </body>
+
 </html>
