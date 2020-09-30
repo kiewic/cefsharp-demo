@@ -1,26 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CefSharpApp
 {
     class BoundObject
     {
-        //We expect an exception here, so tell VS to ignore
-        [DebuggerHidden]
-        public void Error()
+        public string Div(int dividend, int divisor)
         {
-            throw new Exception("This is an exception coming from C#");
+            var exploreClientTask = GetClientConceptualSchemaAsync(dividend, divisor);
+            exploreClientTask.Wait();
+            return exploreClientTask.Result;
         }
 
-        //We expect an exception here, so tell VS to ignore
-        [DebuggerHidden]
-        public int Div(int dividend, int divisor)
+        public async Task<string> GetClientConceptualSchemaAsync(int dividend, int divisor)
         {
-            return dividend / divisor;
+            await RunAsync();
+            return (dividend / divisor).ToString();
+        }
+
+        public Task RunAsync()
+        {
+            return Task.Run(() => Run());
+        }
+
+        public void Run()
+        {
+            Console.WriteLine("Hello from Run()!");
         }
     }
 }

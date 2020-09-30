@@ -105,5 +105,9 @@ namespace CefSharpApp
             //throw new NotImplementedException();
             return null;
         }
+
+        public void OnDocumentAvailableInMainFrame(IWebBrowser chromiumWebBrowser, IBrowser browser)
+        {
+        }
     }
 }

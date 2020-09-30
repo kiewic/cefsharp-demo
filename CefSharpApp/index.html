@@ -21,125 +21,19 @@
     </head>
     <body>
         <div class="container">
-            <div><a href="#" id="memoryButton">Run out of memory</a> <span id="memoryText"></span></div>
-            <div><a href="#" id="syncButton">Sync methods</a></div>
-            <div><a href="#" id="asyncButton">Async methods</a></div>
-            <div><a href="#" id="imageButton">Load image</a> <img id="testImage" /></div>
-            <div><a href="https://heyhttp.org:8080">Request client certificate</a></div>
-            <div><a href="https://powerbi-df.analysis-df.windows.net/groups/me/reports/49aaa02f-c63a-481e-87f2-4ce397954f0b/ReportSection7ef15d33b6b919be02c6?unmin=1">Power BI report</a></div>
-            <div><a href="https://get.webgl.org/webgl2/">WebGL2 test</a></div>
-            <h2>Window size is <span id="sizeText">0</span></h2>
-            <h2>Print size is <span id="sizeText2">0</span></h2>
-            <h2>
-                CefSharp lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the
-                Chromium Embedded Framework (CEF) by Marshall A. Greenblatt. About 30% of the bindings are
-                written in C++/CLI with the majority of code here is C#. It can be used from C# or VB, or any
-                other CLR language. CefSharp provides both WPF and WinForms web browser control implementations.
-            </h2>
+            <h2>Hello!</h2>
             <script type="text/javascript">
-                // Under HKEY_CURRENT_USER\Software\Microsoft\Windows\Windows Error Reporting, set Disabled to REG_DWORD equal 1
-                // WER files are at C:\ProgramData\Microsoft\Windows\WER\ReportArchive
-
-                document.getElementById('memoryButton').addEventListener('click', function () {
-                    var totalMemory = 0;
-                    var size = 1024 * 1024;
-                    var x = [{}];
-                    setTimeout(() => {
-                        setInterval(() => {
-                            document.getElementById("memoryText").innerHTML = `${totalMemory} (${x.length})`;
-                            try {
-                                x.push(new ArrayBuffer(size));
-                                totalMemory += size;
-                            }
-                            catch (e) {
-                                size = size / 2;
-                            }
-                        }, 5);
-                    }, 1000);
-                });
-
-                // Call C# from JS
-                CefSharp.BindObjectAsync("coolGuidGenerator").then(function () {
-                    document.getElementById('syncButton').addEventListener('click', function () {
-                        console.log(window.coolGuidGenerator.newGuid());
-
-                        console.log(window.coolGuidGenerator.validateGuid("fooo"));
-
-                        //// Uncaught (in promise) Error: System.Text.EncoderFallbackException: Unable to translate Unicode character \uDC11 at index 0 to specified code page.
-                        //console.log(window.coolGuidGenerator.validateGuid("\udc11"));
-
-                        //// Uncaught (in promise) Error: System.Text.EncoderFallbackException: Unable to translate Unicode character \uD83D at index 0 to specified code page.
-                        //console.log(window.coolGuidGenerator.validateGuid("'\uD83D'"));
-                    });
-                });
-
-                // Call C# from JS
-                CefSharp.BindObjectAsync("coolGuidGenerator2").then(function () {
-                    document.getElementById('asyncButton').addEventListener('click', function () {
-                        window.coolGuidGenerator2.newGuid().then(function (result) {
-                            console.log(result);
-                        });
-
-                        window.coolGuidGenerator2.validateGuid("hello").then(function (result) {
-                            console.log(result);
-                        }).catch(function (e) {
-                            console.log(e);
-                        });
-                    });
-                });
-
                 // Call C# from JS
                 (async function () {
                     await CefSharp.BindObjectAsync("boundAsync");
 
                     boundAsync.div(16, 2).then(function (actualResult) {
-                        const expectedResult = 8;
+                        const expectedResult = "8";
                         console.assert(expectedResult === actualResult, "Divide 16 / 2 resulted in " + expectedResult);
                         console.log(actualResult);
                     });
-
-                    boundAsync.error().catch(function (e) {
-                        var msg = "Expected error: " + e + "(" + Date() + ")";
-                        console.log(msg);
-                    });
                 })();
-
-                document.getElementById("imageButton").addEventListener("click", function () {
-                    document.getElementById("testImage").src = "https://httpbin.org/image/png";
-                });
-
-                //
-                // Print stuff
-                //
-                function onResize() {
-                    var element = document.getElementById('sizeText');
-                    element.innerHTML = `${window.innerWidth} x ${window.innerHeight}`;
-                }
-                window.addEventListener('resize', onResize);
-                onResize();
-
-                let printMediaQueryList = window.matchMedia('print');
-                printMediaQueryList.addListener((mql) => {
-                    var element = document.getElementById('sizeText2');
-                    var body = document.getElementsByTagName('body')[0];
-                    if (mql.matches) {
-                        // On a Surface Book, this value becomes "988 x 746"
-                        element.innerHTML = `${body.offsetWidth} x ${body.offsetHeight}`;
-                    } else {
-                        element.innerHTML = '0';
-                    }
-                    console.log('print', mql.matches);
-                });
-
-                window.addEventListener('beforeprint', (mql) => {
-                    console.log('beforeprint', mql);
-                });
-
-                window.addEventListener('afterprint', (mql) => {
-                    console.log('afterprint', mql);
-                });
             </script>
         </div>
     </body>
-
 </html>

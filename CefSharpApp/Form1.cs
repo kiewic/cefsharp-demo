@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -45,28 +46,12 @@ namespace CefSharpApp
 
             CefSettings settings = new CefSettings();
 
-            // Specifying a CachePath is required for persistence of cookies, saving of passwords, etc.
-            settings.CachePath = "cache";
+            //CefSharpSettings.ConcurrentTaskExecution = true;
 
-            // For Windows 7 and above, best to include relevant app.manifest entries as well
-            //Cef.EnableHighDPISupport();
-
-            settings.CefCommandLineArgs.Add("disable-gpu", "1");
-            settings.CefCommandLineArgs.Add("disable-gpu-compositing", "1");
+            settings.RemoteDebuggingPort = 8088;
 
             // Initialize cef with the provided settings
             Cef.Initialize(settings);
-
-            #region MultiThreadedMessageLoop
-            // CEF message loop integrated into the application message loo (Part 1)
-            //settings.MultiThreadedMessageLoop = false;
-
-            //// CEF message loop integrated into the application message loo (Part 2)
-            //var timer = new Timer();
-            //timer.Interval = 16;
-            //timer.Tick += Timer_Tick;
-            //timer.Start();
-            #endregion
 
             // Create a browser component
             chromeBrowser = new ChromiumWebBrowser("file:///./index.html");
@@ -78,39 +63,19 @@ namespace CefSharpApp
             // Add it to the form and fill it to the form window.
             this.Controls.Add(chromeBrowser);
 
-            chromeBrowser.JavascriptObjectRepository.Register("coolGuidGenerator", new GuidGenerator());
-            chromeBrowser.JavascriptObjectRepository.Register("coolGuidGenerator2", new GuidGenerator(), isAsync: true);
             chromeBrowser.JavascriptObjectRepository.Register("boundAsync", new BoundObject(), true);
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private async void ChromeBrowser_IsBrowserInitializedChanged(object sender, EventArgs e)
         {
-            Cef.DoMessageLoopWork();
-        }
-
-        private void ChromeBrowser_IsBrowserInitializedChanged(object sender, EventArgs e)
-        {
-            var chromeBrowser = sender as ChromiumWebBrowser;
-            if (!chromeBrowser.IsBrowserInitialized)
+            var chromiumWebBrowser = sender as ChromiumWebBrowser;
+            if (!chromiumWebBrowser.IsBrowserInitialized)
             {
                 throw new InvalidOperationException();
             }
 
             // DevTools can be called from here too
-            // chromeBrowser.ShowDevTools();
+            chromeBrowser.ShowDevTools();
         }
-
-        // Before CefSharp 75
-        //private void ChromeBrowser_IsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)
-        //{
-        //    var chromeBrowser = sender as ChromiumWebBrowser;
-        //    if (!chromeBrowser.IsBrowserInitialized)
-        //    {
-        //        throw new InvalidOperationException();
-        //    }
-
-        //    // DevTools can be called from here too
-        //    // chromeBrowser.ShowDevTools();
-        //}
     }
 }
