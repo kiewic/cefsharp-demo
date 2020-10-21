@@ -138,6 +138,12 @@
                 window.addEventListener('afterprint', (mql) => {
                     console.log('afterprint', mql);
                 });
+
+                // Send a request to different host after 10 seconds for
+                // CORS and Cef.AddCrossOriginWhitelistEntry example.
+                setTimeout(() => fetch('http://heyhttp.org/?trace=1')
+                    //.then(response => response.json())
+                    .then(data => console.log(data)), 10_000);
             </script>
         </div>
     </body>

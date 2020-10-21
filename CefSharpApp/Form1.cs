@@ -94,6 +94,9 @@ namespace CefSharpApp
             //timer.Start();
             #endregion
 
+            var result = Cef.AddCrossOriginWhitelistEntry("http://local.kiewic.com", "http", "heyhttp.org", allowTargetSubdomains: false);
+            Debug.Assert(result == true, "Calling AddCrossOriginWhitelistEntry");
+
             Cef.GetGlobalRequestContext().RegisterSchemeHandlerFactory(
                 "http",
                 domainName: "local.kiewic.com",
