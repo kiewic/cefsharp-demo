@@ -96,6 +96,8 @@
   <ItemGroup>
     <Compile Include="BoundObject.cs" />
     <Compile Include="CefDisplayHandler.cs" />
+    <Compile Include="CustomResourceHandler.cs" />
+    <Compile Include="CustomSchemeHandlerFactory.cs" />
     <Compile Include="Form1.cs" />
     <Compile Include="DummyRequestHandler.cs" />
     <Compile Include="DummyKeyboardHandler.cs" />

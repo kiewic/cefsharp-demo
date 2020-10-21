@@ -94,8 +94,13 @@ namespace CefSharpApp
             //timer.Start();
             #endregion
 
+            Cef.GetGlobalRequestContext().RegisterSchemeHandlerFactory(
+                "http",
+                domainName: "local.kiewic.com",
+                factory: new CustomSchemeHandlerFactory());
+
             // Create a browser component
-            chromeBrowser = new ChromiumWebBrowser("file:///./index.html");
+            chromeBrowser = new ChromiumWebBrowser("http://local.kiewic.com/index.html");
             chromeBrowser.Dock = DockStyle.Fill;
             chromeBrowser.KeyboardHandler = new DummyKeyboardHandler();
             chromeBrowser.RequestHandler = new DummyRequestHandler();
@@ -123,7 +128,7 @@ namespace CefSharpApp
             }
 
             // DevTools can be called from here too
-            // chromeBrowser.ShowDevTools();
+            chromeBrowser.ShowDevTools();
         }
 
         // Before CefSharp 75
