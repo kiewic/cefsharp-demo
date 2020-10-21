@@ -105,8 +105,8 @@ namespace CefSharpApp
             // Create a browser component
             chromeBrowser = new ChromiumWebBrowser("http://local.kiewic.com/index.html");
             chromeBrowser.Dock = DockStyle.Fill;
-            chromeBrowser.KeyboardHandler = new DummyKeyboardHandler();
-            chromeBrowser.RequestHandler = new DummyRequestHandler();
+            chromeBrowser.KeyboardHandler = new CustomKeyboardHandler();
+            chromeBrowser.RequestHandler = new CustomRequestHandler();
             chromeBrowser.IsBrowserInitializedChanged += ChromeBrowser_IsBrowserInitializedChanged;
 
             // Add it to the form and fill it to the form window.

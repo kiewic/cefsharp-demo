@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace CefSharpApp
 {
-    class DummyRequestHandler : IRequestHandler
+    class CustomRequestHandler : IRequestHandler
     {
         public bool CanGetCookies(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
         {
