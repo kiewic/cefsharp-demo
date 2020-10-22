@@ -72,7 +72,7 @@ namespace CefSharpApp
             CefSettings settings = new CefSettings();
 
             // Specifying a CachePath is required for persistence of cookies, saving of passwords, etc.
-            settings.CachePath = "cache";
+            settings.CachePath = System.IO.Path.GetFullPath("cache");
 
             // For Windows 7 and above, best to include relevant app.manifest entries as well
             //Cef.EnableHighDPISupport();
@@ -112,9 +112,9 @@ namespace CefSharpApp
             // Add it to the form and fill it to the form window.
             this.Controls.Add(chromeBrowser);
 
-            chromeBrowser.JavascriptObjectRepository.Register("coolGuidGenerator", new GuidGenerator());
+            chromeBrowser.JavascriptObjectRepository.Register("coolGuidGenerator", new GuidGenerator(), isAsync: false);
             chromeBrowser.JavascriptObjectRepository.Register("coolGuidGenerator2", new GuidGenerator(), isAsync: true);
-            chromeBrowser.JavascriptObjectRepository.Register("boundAsync", new BoundObject(), true);
+            chromeBrowser.JavascriptObjectRepository.Register("boundAsync", new BoundObject(), isAsync: true);
         }
 
         private void Timer_Tick(object sender, EventArgs e)

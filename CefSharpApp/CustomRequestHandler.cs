@@ -105,5 +105,10 @@ namespace CefSharpApp
             //throw new NotImplementedException();
             return null;
         }
+
+        // Called on the CEF UI thread when the window.document object of the main frame has been created.
+        public void OnDocumentAvailableInMainFrame(IWebBrowser chromiumWebBrowser, IBrowser browser)
+        {
+        }
     }
 }
